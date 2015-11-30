@@ -10,3 +10,11 @@
 
 * Align version with foscam-filename
 
+0.0.4
+
+* Add `filenames` function.
+
+0.0.5
+
+* Fix `getFoscamDirectoryContents` to include directory.
+

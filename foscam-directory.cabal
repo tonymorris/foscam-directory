@@ -1,5 +1,5 @@
 name:               foscam-directory
-version:            0.0.3
+version:            0.0.5
 license:            BSD3
 license-file:       LICENSE
 author:             Tony Morris <ʇǝu˙sıɹɹoɯʇ@ןןǝʞsɐɥ> <dibblego>
@@ -34,7 +34,7 @@ library
                     , utf8-string     >= 1     && < 2.0
                     , lens            >= 4.0   && < 5
                     , pretty          >= 1.1.2 && < 1.2
-                    , foscam-filename == 0.0.3
+                    , foscam-filename == 0.0.4
 
   ghc-options:
                     -Wall
