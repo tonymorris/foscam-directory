@@ -21,3 +21,8 @@
 0.0.6
 
 * Add optics for `FoscamDirectoryFile`.
+
+0.0.7
+
+* Straighten out optics for `FoscamDirectoryFile`.
+
