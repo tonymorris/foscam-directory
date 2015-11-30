@@ -3,7 +3,9 @@
 module Data.Foscam.Directory(
   getFoscamDirectoryContents
 , FoscamDirectoryFile(Isn't, Is)
+, _FoscamDirectoryFileIso
 , _FoscamDirectory
+, _FoscamFilename
 , _Isn't
 , _Is
 , _Isn'tFilename
@@ -11,8 +13,9 @@ module Data.Foscam.Directory(
 ) where
 
 import Control.Category((.))
-import Control.Lens(Lens', Prism', Traversal', lens, prism', _1, _2)
+import Control.Lens(Lens', Prism', Traversal', Iso', iso, prism', _1, _2)
 import Data.ByteString.UTF8 as UTF8(fromString)
+import Data.Either(Either(Left, Right))
 import Data.Eq(Eq)
 import Data.Foscam.File.Filename(Filename, filename)
 import Data.Functor(fmap, (<$>))
@@ -38,16 +41,28 @@ getFoscamDirectoryContents p =
       Success n -> Is p n
       Failure _ -> Isn't p f)) <$> getDirectoryContents p
 
+_FoscamDirectoryFileIso ::
+  Iso'
+    FoscamDirectoryFile
+    (FilePath, Either FilePath Filename)
+_FoscamDirectoryFileIso =
+  iso
+    (\d -> case d of
+             Isn't p n -> (p, Left n)
+             Is    p n -> (p, Right n))
+    (\(p, n) -> case n of
+                  Left q -> Isn't p q
+                  Right q -> Is   p q)
+
 _FoscamDirectory ::
   Lens' FoscamDirectoryFile FilePath
 _FoscamDirectory =
-  lens
-    (\d -> case d of 
-             Isn't p _ -> p
-             Is    p _ -> p)
-    (\d p -> case d of 
-               Isn't _ x -> Isn't p x
-               Is    _ x -> Is p x)
+  _FoscamDirectoryFileIso . _1
+
+_FoscamFilename ::
+  Lens' FoscamDirectoryFile (Either FilePath Filename)
+_FoscamFilename =
+  _FoscamDirectoryFileIso . _2
 
 _Isn't ::
   Prism' FoscamDirectoryFile (FilePath, FilePath)
