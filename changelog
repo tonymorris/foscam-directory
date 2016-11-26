@@ -26,3 +26,7 @@
 
 * Straighten out optics for `FoscamDirectoryFile`.
 
+0.0.8
+
+* Update trifecta dependency.
+
